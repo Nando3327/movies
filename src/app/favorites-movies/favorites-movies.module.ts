@@ -7,8 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { FavoritesMoviesComponent } from './favorites-movies.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FavoritesMoviesService } from './favorites-movies.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderModule } from '../headers/header.module';
+import { Interceptor } from '../interceptor.service';
 
 const routes: Routes = [
   {
@@ -26,6 +27,6 @@ const routes: Routes = [
   imports: [ CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), HttpClientModule, HeaderModule],
   declarations: [FavoritesMoviesComponent],
   exports: [FavoritesMoviesComponent, RouterModule],
-  providers: [FavoritesMoviesService]
+  providers: [FavoritesMoviesService, { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }]
 })
 export class FavoritesMoviesModule {}

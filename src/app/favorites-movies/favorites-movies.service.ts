@@ -10,7 +10,7 @@ export class FavoritesMoviesService {
   }
 
   getMovies(): Observable<any> {
-    return this.http.get('https://api.themoviedb.org/3/movie/popular?api_key=1b501bbda107113acc653f328a2e935d').pipe(
+    return this.http.get('https://api.themoviedb.org/3/movie/popular?api_key=').pipe(
         map((response: any) => {
           return response.results || [];
         }),
