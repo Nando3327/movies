@@ -2,10 +2,15 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+/**
+ * key: API_KEY to connect
+ * urlImages: Url to show images from the movies on the server
+ */
+
 export const environment = {
-  production: false,
-  key: '1b501bbda107113acc653f328a2e935d',
-  urlImages: 'https://image.tmdb.org/t/p/w440_and_h660_face/'
+    production: false,
+    key: '1b501bbda107113acc653f328a2e935d',
+    urlImages: 'https://image.tmdb.org/t/p/w440_and_h660_face/'
 };
 
 /*
