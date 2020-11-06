@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { NetworkService } from '../network.service';
 import { BagStoreService } from '../../store/entity/bag';
 import { Subscription } from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Component({
     selector: 'app-favorites-movies',
@@ -32,16 +33,25 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.networkService.hasConnection.subscribe((connected: boolean) => {
             this.showMovies = true;
             if (!connected) {
-                this.movies =  this.store.getBagValue('movies') || [];
-            }else {
+                this.movies = this.getTopValues(this.store.getBagValue('movies') || [], environment.moviesToShow, 'popularity');
+            } else {
                 this.favoriteMoviesService.getMovies().subscribe(ret => {
-                    this.movies = ret;
+                    this.movies = this.getTopValues(ret, 10, 'popularity');
                 }, error => {
                     console.log(error);
                 });
             }
         }));
+    }
 
+    getTopValues(arr, n, prop): Array<any> {
+        const sortByCount = arr.sort((a, b) => {
+            return b[prop] - a[prop];
+        });
+        if (sortByCount.length > n) {
+            return sortByCount.slice(0, n);
+        }
+        return sortByCount;
     }
 
     loadLabels(): void {

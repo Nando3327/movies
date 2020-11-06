@@ -48,3 +48,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
      * key: API_KEY to connect
      * urlImages: Url to show images from the movies on the server
+     * moviesToShow: number of movies to show

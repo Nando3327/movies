@@ -5,12 +5,14 @@
 /**
  * key: API_KEY to connect
  * urlImages: Url to show images from the movies on the server
+ * moviesToShow: number of movies to show
  */
 
 export const environment = {
     production: false,
     key: '1b501bbda107113acc653f328a2e935d',
-    urlImages: 'https://image.tmdb.org/t/p/w440_and_h660_face/'
+    urlImages: 'https://image.tmdb.org/t/p/w440_and_h660_face/',
+    moviesToShow: 10
 };
 
 /*
