@@ -6,6 +6,7 @@ import { NetworkService } from '../network.service';
 import { BagStoreService } from '../../store/entity/bag';
 import { Subscription } from 'rxjs';
 import {environment} from '../../environments/environment';
+import { LoadingService } from '../loading.servicee';
 
 @Component({
     selector: 'app-favorites-movies',
@@ -24,7 +25,8 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
                 private translate: TranslateService,
                 public navCtrl: NavController,
                 private store: BagStoreService,
-                public networkService: NetworkService) {
+                public networkService: NetworkService,
+                public loadingService: LoadingService) {
     }
 
     ngOnInit() {
@@ -35,7 +37,9 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
             if (!connected) {
                 this.movies = this.getTopValues(this.store.getBagValue('movies') || [], environment.moviesToShow, 'popularity');
             } else {
+                this.loadingService.presentLoading();
                 this.favoriteMoviesService.getMovies().subscribe(ret => {
+                    this.loadingService.dismissLoading();
                     this.movies = this.getTopValues(ret, 10, 'popularity');
                 }, error => {
                     console.log(error);

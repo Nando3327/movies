@@ -25,6 +25,7 @@
   },
   "favoritesMovies": {
     "title": "Movies",
+    "infoTitle": "Info",
     "languages": "Language",
     "allPublic": "All public",
     "adultPublic": "Only adults",

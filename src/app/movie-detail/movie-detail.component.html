@@ -1,11 +1,11 @@
-<app-header [title]="labels.title" [showBack]="true"></app-header>
+<app-header [title]="labels.infoTitle" [showBack]="true"></app-header>
 <ion-content id="container">
     <ion-grid *ngIf="showMovie">
         <ion-card>
             <ion-row>
                 <ion-col size="12" class="ion-text-center">
                     <ion-text class="title-text-movie-detail">
-                        {{ item.original_title }}
+                        {{ item.title }}
                     </ion-text>
                 </ion-col>
             </ion-row>
