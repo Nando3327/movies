@@ -24,6 +24,9 @@
     }
   },
   "favoritesMovies": {
-    "title": "Movies"
+    "title": "Movies",
+    "languages": "Language",
+    "allPublic": "All public",
+    "adultPublic": "Only adults"
   }
 }

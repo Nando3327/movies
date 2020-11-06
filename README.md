@@ -39,8 +39,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
     Network: Used to find internet connection
          "@ionic-native/network": "^5.29.0",
          
-    Translator: differents lenguajes, set languajes files on i18n files inside the path src/assets/i18n.
-    en: English, to change the languaje just create the file and the translation for each entry on the json file and set the value on the app.component.ts line 28: (this.translate.use('en'))
+    Translator: differents lenguajes, set languages files on i18n files inside the path src/assets/i18n.
+    en: English, to change the language just create the file and the translation for each entry on the json file and set the value on the app.component.ts line 28: (this.translate.use('en'))
         "@ngx-translate/core": "^12.1.2",
         "@ngx-translate/http-loader": "^4.0.0",         
 
