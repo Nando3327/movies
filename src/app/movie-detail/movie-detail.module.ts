@@ -4,28 +4,26 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FavoritesMoviesComponent } from './favorites-movies.component';
+import { MovieDetailComponent } from './movie-detail.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FavoritesMoviesService } from './favorites-movies.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderModule } from '../headers/header.module';
 
 const routes: Routes = [
   {
-    path: 'movies',
-    component: FavoritesMoviesComponent,
+    path: '',
+    component: MovieDetailComponent,
   },
   {
     path: '',
-    redirectTo: '/movies',
+    redirectTo: '/movie-detail',
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
   imports: [ CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), HttpClientModule, HeaderModule],
-  declarations: [FavoritesMoviesComponent],
-  exports: [FavoritesMoviesComponent, RouterModule],
-  providers: [FavoritesMoviesService]
+  declarations: [MovieDetailComponent],
+  exports: [MovieDetailComponent, RouterModule]
 })
-export class FavoritesMoviesModule {}
+export class MovieDetailModule {}
