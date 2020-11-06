@@ -22,6 +22,10 @@ Run `ng build` to build the project. Use the `--prod` flag for a production buil
 
 Run `ionic cordova build ios` for IOS `ionic cordova build android` for Android.
 
+In Android the gradle distributionUrl used is 4-10-1 if troubles compiling please change to this version on gradle-wrapper.properties
+From: distributionUrl=https\://services.gradle.org/distributions/gradle-X.X.X-all.zip To: distributionUrl=https\://services.gradle.org/distributions/gradle-4.10.1-all.zip
+and reload the gradle sync
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
