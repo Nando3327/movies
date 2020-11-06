@@ -3,8 +3,8 @@
     <ion-grid *ngIf="showMovie">
         <ion-card>
             <ion-row>
-                <ion-col size="12">
-                    <ion-text>
+                <ion-col size="12" class="ion-text-center">
+                    <ion-text class="title-text-movie-detail">
                         {{ item.original_title }}
                     </ion-text>
                 </ion-col>
@@ -13,8 +13,47 @@
         <ion-card>
             <ion-row>
                 <ion-col size="12">
+                    <ion-img [src]="imageUrl" alt=""></ion-img>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+        <ion-card>
+            <ion-row>
+                <ion-col size="12">
                     <ion-text>
                         {{ item.overview }}
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+        <ion-card>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-text>
+                        {{labels.languages}} - {{ item.original_language | uppercase }}
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+        <ion-card>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-text>
+                        {{(item.adult) ? labels.adultPublic : labels.allPublic}}
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+        <ion-card>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-text>
+                        {{labels.votes}}
+                    </ion-text>
+                </ion-col>
+                <ion-col size="6" class="ion-text-right">
+                    <ion-text class="votes-movie-detail">
+                        {{item.vote_average}}
                     </ion-text>
                 </ion-col>
             </ion-row>

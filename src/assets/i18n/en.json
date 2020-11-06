@@ -27,6 +27,7 @@
     "title": "Movies",
     "languages": "Language",
     "allPublic": "All public",
-    "adultPublic": "Only adults"
+    "adultPublic": "Only adults",
+    "votes": "Votes"
   }
 }

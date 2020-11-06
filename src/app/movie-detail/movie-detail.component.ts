@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-movie-detail',
@@ -13,6 +14,7 @@ export class MovieDetailComponent implements OnInit {
     item: any;
     globalLabels: any;
     labels: any;
+    imageUrl = '';
 
     constructor(private translate: TranslateService,
                 private activeRoute: ActivatedRoute) {
@@ -23,6 +25,7 @@ export class MovieDetailComponent implements OnInit {
         this.activeRoute.queryParams.subscribe(data => {
             if (data) {
                 this.item = data;
+                this.imageUrl = environment.urlImages + data.poster_path;
                 this.showMovie = true;
             }
         });
