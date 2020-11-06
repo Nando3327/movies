@@ -1,0 +1,29 @@
+{
+  "welcome": "Welcome",
+  "global": {
+    "errors": {
+      "genericErrorMessage": "Technical errors occurred, please try again later",
+      "fieldsRequired": "Please complete the required fields to continue"
+    },
+    "buttons": {
+      "search": "Search",
+      "edit": "Edit",
+      "delete": "Delete",
+      "details": "Details",
+      "actions": "Actions",
+      "submit": "Save",
+      "return": "Return",
+      "accept": "Accept",
+      "cancel": "Cancel"
+    },
+    "spinner": {
+      "loading": "Loading"
+    },
+    "dialog": {
+      "dearUser": "Dear user"
+    }
+  },
+  "favoritesMovies": {
+    "title": "Movies"
+  }
+}

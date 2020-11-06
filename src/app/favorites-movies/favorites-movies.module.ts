@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { FavoritesMoviesComponent } from './favorites-movies.component';
 import { RouterModule, Routes } from '@angular/router';
+import { FavoritesMoviesService } from './favorites-movies.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -20,8 +22,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes)],
+  imports: [ CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), HttpClientModule],
   declarations: [FavoritesMoviesComponent],
-  exports: [FavoritesMoviesComponent, RouterModule]
+  exports: [FavoritesMoviesComponent, RouterModule],
+  providers: [FavoritesMoviesService]
 })
 export class FavoritesMoviesModule {}
