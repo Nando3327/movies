@@ -11,6 +11,7 @@ export class LoadingService {
     }
 
     async presentLoading() {
+        this.isLoading = true;
         return await this.loadingController.create({
             spinner: 'bubbles'
         }).then(a => {
