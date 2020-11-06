@@ -1,0 +1,28 @@
+{
+  "welcome": "Bienvenidos",
+  "global": {
+    "errors": {
+      "genericErrorMessage": "Ocurrieron errore técnicos, por favor reintente",
+      "fieldsRequired": "Complete los campos obligatorios para continuar"
+    },
+    "buttons": {
+      "search": "Buscar",
+      "edit": "Edittar",
+      "delete": "Eliminar",
+      "details": "Detalles",
+      "actions": "Acciones",
+      "submit": "Guardar",
+      "return": "Regresar",
+      "accept": "Aceptar",
+      "cancel": "Cancelar"
+    }
+  },
+  "favoritesMovies": {
+    "title": "Película",
+    "infoTitle": "Información",
+    "languages": "Lenguaje",
+    "allPublic": "Todo público",
+    "adultPublic": "Solo adultos",
+    "votes": "Votos"
+  }
+}
