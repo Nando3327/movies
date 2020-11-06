@@ -10,6 +10,7 @@ import { FavoritesMoviesService } from './favorites-movies.service';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HeaderModule } from '../headers/header.module';
 import { Interceptor } from '../interceptor.service';
+import { NetworkService } from '../network.service';
 
 const routes: Routes = [
   {
@@ -27,6 +28,6 @@ const routes: Routes = [
   imports: [ CommonModule, FormsModule, IonicModule, RouterModule.forChild(routes), HttpClientModule, HeaderModule],
   declarations: [FavoritesMoviesComponent],
   exports: [FavoritesMoviesComponent, RouterModule],
-  providers: [FavoritesMoviesService, { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }]
+  providers: [FavoritesMoviesService, { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }, NetworkService]
 })
 export class FavoritesMoviesModule {}

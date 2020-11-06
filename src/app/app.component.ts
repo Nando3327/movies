@@ -28,27 +28,8 @@ export class AppComponent {
       this.translate.use('en').subscribe(_ => {
         this.showData = true;
       });
-      // if (Capacitor.platform !== 'web') {
-      //   this.initEvents();
-      // }else {
-      //   this.store.setBagValue('connected', true);
-      // }
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
-
-  // initEvents(): void {
-  //   this.subscriptions.push(this.network.onDisconnect().subscribe(() => {
-  //     this.store.setBagValue('connected', false);
-  //   }));
-  //
-  //   this.subscriptions.push(this.network.onConnect().subscribe(() => {
-  //     this.store.setBagValue('connected', true);
-  //   }));
-  // }
-  //
-  // ngOnDestroy(): void {
-  //   this.subscriptions.forEach(sb => sb.unsubscribe());
-  // }
 }

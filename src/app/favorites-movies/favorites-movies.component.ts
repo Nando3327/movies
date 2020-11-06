@@ -1,35 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FavoritesMoviesService } from './favorites-movies.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { NetworkService } from '../network.service';
+import { BagStoreService } from '../../store/entity/bag';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-favorites-movies',
     templateUrl: './favorites-movies.component.html',
     styleUrls: ['./favorites-movies.component.scss'],
 })
-export class FavoritesMoviesComponent implements OnInit {
+export class FavoritesMoviesComponent implements OnInit, OnDestroy {
 
     showMovies = false;
     movies: Array<any>;
     globalLabels: any;
     labels: any;
+    private subscriptions: Subscription[] = [];
 
     constructor(private favoriteMoviesService: FavoritesMoviesService,
                 private translate: TranslateService,
-                public navCtrl: NavController) {
+                public navCtrl: NavController,
+                private store: BagStoreService,
+                public networkService: NetworkService) {
     }
 
     ngOnInit() {
         this.loadLabels();
-        this.favoriteMoviesService.getMovies().subscribe(ret => {
+        this.networkService.testNetworkConnection();
+        this.subscriptions.push(this.networkService.hasConnection.subscribe((connected: boolean) => {
             this.showMovies = true;
-            this.movies = ret;
-            console.log(ret);
-        }, error => {
-            console.log(error);
-        });
+            if (!connected) {
+                this.movies =  this.store.getBagValue('movies') || [];
+            }else {
+                this.favoriteMoviesService.getMovies().subscribe(ret => {
+                    this.movies = ret;
+                }, error => {
+                    console.log(error);
+                });
+            }
+        }));
+
     }
 
     loadLabels(): void {
@@ -41,6 +53,10 @@ export class FavoritesMoviesComponent implements OnInit {
 
     goToMovieDetail(movie): void {
         this.navCtrl.navigateForward(['/movie-detail'], {queryParams: movie, replaceUrl: true});
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions.forEach(sb => sb.unsubscribe());
     }
 
 }
