@@ -11,10 +11,20 @@ export class FavoritesMoviesService {
                 private store: BagStoreService) {
     }
 
-    getMovies(): Observable<any> {
-        return this.http.get('https://api.themoviedb.org/3/movie/popular?api_key=').pipe(
+    getMovies(page): Observable<any> {
+        return this.http.get('https://api.themoviedb.org/3/movie/popular?[REPLACE]&page=' + page).pipe(
             map((response: any) => {
-                this.store.setBagValue('movies', response.results || []);
+                if (response && response.results) {
+                    const responseMovies = this.store.getBagValue('movies') || [];
+                    const responseToAdd = response.results || [];
+                    if (responseMovies.length > 0 && responseToAdd.length > 0) {
+                        this.store.setBagValue('movies', responseMovies.concat(responseToAdd));
+                    } else if (responseMovies.length === 0 && responseToAdd.length > 0) {
+                        this.store.setBagValue('movies', responseToAdd);
+                    }else if (responseMovies.length === 0 && responseToAdd.length === 0) {
+                        this.store.setBagValue('movies', []);
+                    }
+                }
                 return response.results || [];
             }),
             catchError(err => {

@@ -6,8 +6,9 @@ import { environment } from '../environments/environment';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url.indexOf('key=') > -1) {
-            const httpRequest = new HttpRequest(req.method as any, req.url + environment.key);
+        if (req.url.indexOf('[REPLACE]') > -1) {
+            const replaceData = 'api_key=' + environment.key + '&language=' + environment.lang;
+            const httpRequest = new HttpRequest(req.method as any, req.url.replace('[REPLACE]', replaceData));
             req = Object.assign(req, httpRequest);
         }
         const dupReq = req.clone();

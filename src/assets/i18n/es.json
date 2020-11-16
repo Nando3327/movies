@@ -15,6 +15,12 @@
       "return": "Regresar",
       "accept": "Aceptar",
       "cancel": "Cancelar"
+    },
+    "spinner": {
+      "loading": "Cargando"
+    },
+    "dialog": {
+      "dearUser": "Dear user"
     }
   },
   "favoritesMovies": {

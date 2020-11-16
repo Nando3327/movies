@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FavoritesMoviesService } from './favorites-movies.service';
 import { TranslateService } from '@ngx-translate/core';
-import { NavController } from '@ionic/angular';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
 import { NetworkService } from '../network.service';
 import { BagStoreService } from '../../store/entity/bag';
 import { Subscription } from 'rxjs';
-import {environment} from '../../environments/environment';
 import { LoadingService } from '../loading.servicee';
 
 @Component({
@@ -15,10 +14,14 @@ import { LoadingService } from '../loading.servicee';
 })
 export class FavoritesMoviesComponent implements OnInit, OnDestroy {
 
+    @ViewChild(IonInfiniteScroll, {static: false}) infiniteScroll: IonInfiniteScroll;
+
     showMovies = false;
     movies: Array<any>;
     globalLabels: any;
     labels: any;
+    slice = 20;
+    page = 1;
     private subscriptions: Subscription[] = [];
 
     constructor(private favoriteMoviesService: FavoritesMoviesService,
@@ -33,14 +36,16 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
         this.loadLabels();
         this.networkService.testNetworkConnection();
         this.subscriptions.push(this.networkService.hasConnection.subscribe((connected: boolean) => {
+            this.movies = [];
+            this.page = 1;
             this.showMovies = true;
             if (!connected) {
-                this.movies = this.getTopValues(this.store.getBagValue('movies') || [], environment.moviesToShow, 'popularity');
+                this.movies = this.store.getBagValue('movies') || [];
             } else {
                 this.loadingService.presentLoading();
-                this.favoriteMoviesService.getMovies().subscribe(ret => {
+                this.favoriteMoviesService.getMovies(this.page).subscribe(ret => {
                     this.loadingService.dismissLoading();
-                    this.movies = this.getTopValues(ret, 10, 'popularity');
+                    this.movies = ret;
                 }, error => {
                     console.log(error);
                 });
@@ -48,14 +53,17 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
         }));
     }
 
-    getTopValues(arr, n, prop): Array<any> {
-        const sortByCount = arr.sort((a, b) => {
-            return b[prop] - a[prop];
+    loadDataInfiniteScroll(event) {
+        this.page++;
+        this.favoriteMoviesService.getMovies(this.page).subscribe(ret => {
+            if (ret.length === 0) {
+                this.infiniteScroll.disabled = true;
+            }
+            this.movies = this.movies.concat(ret);
+            event.target.complete();
+        }, error => {
+            console.log(error);
         });
-        if (sortByCount.length > n) {
-            return sortByCount.slice(0, n);
-        }
-        return sortByCount;
     }
 
     loadLabels(): void {
