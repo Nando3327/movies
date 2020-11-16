@@ -11,6 +11,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Network } from '@ionic-native/network/ngx';
 import { LoadingService } from './loading.servicee';
+import { AlertsService } from './alerts.servicee';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, `../assets/i18n/`, '.json');
@@ -37,7 +38,8 @@ export function createTranslateLoader(http: HttpClient) {
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         Network,
-        LoadingService
+        LoadingService,
+        AlertsService
     ],
     bootstrap: [AppComponent]
 })

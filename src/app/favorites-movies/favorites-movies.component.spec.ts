@@ -76,7 +76,7 @@ describe('FavoritesMoviesComponent', () => {
           ]
         };
     httpClientSpy.get.and.returnValue(of(expectedResult));
-    favoritesMoviesService.getMovies().subscribe(
+    favoritesMoviesService.getMovies(1).subscribe(
         result => {
           component.loadingService.dismissLoading();
           expect(result).toEqual(expectedResult.results, 'expected movies');

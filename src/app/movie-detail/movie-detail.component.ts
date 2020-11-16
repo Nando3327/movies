@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { DataMovie } from '../favorites-movies/models/movie.model';
 
 @Component({
     selector: 'app-movie-detail',
@@ -11,7 +12,7 @@ import { environment } from '../../environments/environment';
 export class MovieDetailComponent implements OnInit {
 
     showMovie = false;
-    item: any;
+    item: DataMovie;
     globalLabels: any;
     labels: any;
     imageUrl = '';
@@ -22,7 +23,7 @@ export class MovieDetailComponent implements OnInit {
 
     ngOnInit() {
         this.loadLabels();
-        this.activeRoute.queryParams.subscribe(data => {
+        this.activeRoute.queryParams.subscribe((data: DataMovie) => {
             if (data) {
                 this.item = data;
                 this.imageUrl = environment.urlImages + data.poster_path;

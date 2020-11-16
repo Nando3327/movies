@@ -6,6 +6,8 @@ import { NetworkService } from '../network.service';
 import { BagStoreService } from '../../store/entity/bag';
 import { Subscription } from 'rxjs';
 import { LoadingService } from '../loading.servicee';
+import { DataMovie } from './models/movie.model';
+import { AlertsService } from '../alerts.servicee';
 
 @Component({
     selector: 'app-favorites-movies',
@@ -17,7 +19,7 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
     @ViewChild(IonInfiniteScroll, {static: false}) infiniteScroll: IonInfiniteScroll;
 
     showMovies = false;
-    movies: Array<any>;
+    movies: Array<DataMovie>;
     globalLabels: any;
     labels: any;
     slice = 20;
@@ -29,7 +31,8 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
                 public navCtrl: NavController,
                 private store: BagStoreService,
                 public networkService: NetworkService,
-                public loadingService: LoadingService) {
+                public loadingService: LoadingService,
+                public alertsService: AlertsService) {
     }
 
     ngOnInit() {
@@ -43,11 +46,12 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
                 this.movies = this.store.getBagValue('movies') || [];
             } else {
                 this.loadingService.presentLoading();
-                this.favoriteMoviesService.getMovies(this.page).subscribe(ret => {
+                this.favoriteMoviesService.getMovies(this.page).subscribe((ret: Array<DataMovie>) => {
                     this.loadingService.dismissLoading();
                     this.movies = ret;
                 }, error => {
                     console.log(error);
+                    this.alertsService.presetAlert({message: this.globalLabels.errors.genericErrorMessage});
                 });
             }
         }));
@@ -55,7 +59,7 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
 
     loadDataInfiniteScroll(event) {
         this.page++;
-        this.favoriteMoviesService.getMovies(this.page).subscribe(ret => {
+        this.favoriteMoviesService.getMovies(this.page).subscribe((ret: Array<DataMovie>) => {
             if (ret.length === 0) {
                 this.infiniteScroll.disabled = true;
             }
@@ -63,6 +67,7 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
             event.target.complete();
         }, error => {
             console.log(error);
+            this.alertsService.presetAlert({message: this.globalLabels.errors.genericErrorMessage});
         });
     }
 
