@@ -6,21 +6,17 @@ import { AlertsModel } from './models/alerts.model';
 export class AlertsService {
 
     constructor(
-        public alert: AlertController
+        public alertController: AlertController
     ) {
     }
 
-    async presetAlert(dataMessage: AlertsModel) {
-        let alert;
-        const message = dataMessage.message.toString();
-        const buttons = [];
-        buttons.push({
-            text: dataMessage.button || 'Ok',
+    async presentAlert(dataMessage: AlertsModel) {
+        const alert = await this.alertController.create({
+            header: 'Alert',
+            message: dataMessage.message.toString(),
+            buttons: ['OK']
         });
-        alert = await this.alert.create({
-            message,
-            buttons
-        });
+
         await alert.present();
     }
 }

@@ -11,6 +11,7 @@ import { NetworkService } from '../network.service';
 import { Network } from '@ionic-native/network/ngx';
 import { of } from 'rxjs';
 import { LoadingService } from '../loading.servicee';
+import { AlertsService } from '../alerts.servicee';
 
 describe('FavoritesMoviesComponent', () => {
   let component: FavoritesMoviesComponent;
@@ -31,7 +32,7 @@ describe('FavoritesMoviesComponent', () => {
           useClass: TranslateFakeLoader
         }
       }), RouterTestingModule],
-      providers: [FavoritesMoviesService, BagStoreService, NetworkService, Network, LoadingService]
+      providers: [FavoritesMoviesService, BagStoreService, NetworkService, Network, LoadingService, AlertsService]
     }).compileComponents();
 
     fixture = TestBed.createComponent(FavoritesMoviesComponent);

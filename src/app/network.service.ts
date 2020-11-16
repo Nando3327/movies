@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
 import { Platform } from '@ionic/angular';
-import { Observable, fromEvent, merge, of, BehaviorSubject } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { Observable, fromEvent, merge, of, BehaviorSubject, throwError } from 'rxjs';
+import { catchError, map, mapTo } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -45,25 +45,20 @@ export class NetworkService {
                 }
             });
         }
-        this.testNetworkConnection();
     }
 
     private getNetworkTestRequest(): Observable<any> {
         return this.http.get('https://jsonplaceholder.typicode.com/todos/1');
     }
 
-    public async testNetworkConnection() {
+    public testNetworkConnection(): Observable<boolean> {
         try {
-            this.getNetworkTestRequest().subscribe(
-                success => {
-                    console.log(success);
-                    this.hasConnection.next(true);
-                    return;
-                }, error => {
-                    console.log(error);
-                    this.hasConnection.next(false);
-                    return;
-                });
+            return this.getNetworkTestRequest().pipe(
+                map(res => {
+                    return res;
+                }), catchError(err => {
+                    return throwError(err);
+                }));
         } catch (err) {
             console.log('err testNetworkConnection', err);
             this.hasConnection.next(false);

@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FavoritesMoviesService } from './favorites-movies.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IonInfiniteScroll, NavController } from '@ionic/angular';
 import { NetworkService } from '../network.service';
 import { BagStoreService } from '../../store/entity/bag';
-import { Subscription } from 'rxjs';
 import { LoadingService } from '../loading.servicee';
 import { DataMovie } from './models/movie.model';
 import { AlertsService } from '../alerts.servicee';
@@ -14,7 +13,7 @@ import { AlertsService } from '../alerts.servicee';
     templateUrl: './favorites-movies.component.html',
     styleUrls: ['./favorites-movies.component.scss'],
 })
-export class FavoritesMoviesComponent implements OnInit, OnDestroy {
+export class FavoritesMoviesComponent implements OnInit {
 
     @ViewChild(IonInfiniteScroll, {static: false}) infiniteScroll: IonInfiniteScroll;
 
@@ -24,7 +23,6 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
     labels: any;
     slice = 20;
     page = 1;
-    private subscriptions: Subscription[] = [];
 
     constructor(private favoriteMoviesService: FavoritesMoviesService,
                 private translate: TranslateService,
@@ -37,11 +35,13 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.loadLabels();
-        this.networkService.testNetworkConnection();
-        this.subscriptions.push(this.networkService.hasConnection.subscribe((connected: boolean) => {
+    }
+
+    getData(): void {
+        this.showMovies = true;
+        this.networkService.testNetworkConnection().subscribe((connected: boolean) => {
             this.movies = [];
             this.page = 1;
-            this.showMovies = true;
             if (!connected) {
                 this.movies = this.store.getBagValue('movies') || [];
             } else {
@@ -51,10 +51,15 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
                     this.movies = ret;
                 }, error => {
                     console.log(error);
-                    this.alertsService.presetAlert({message: this.globalLabels.errors.genericErrorMessage});
+                    this.alertsService.presentAlert({message: this.globalLabels.errors.genericErrorMessage});
                 });
             }
-        }));
+        }, _ => {
+            this.movies = this.store.getBagValue('movies') || [];
+            if (this.movies.length === 0) {
+                this.alertsService.presentAlert({message: this.globalLabels.errors.genericErrorMessage});
+            }
+        });
     }
 
     loadDataInfiniteScroll(event) {
@@ -67,7 +72,9 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
             event.target.complete();
         }, error => {
             console.log(error);
-            this.alertsService.presetAlert({message: this.globalLabels.errors.genericErrorMessage});
+            this.infiniteScroll.disabled = true;
+            event.target.complete();
+            this.alertsService.presentAlert({message: this.globalLabels.errors.genericErrorMessage});
         });
     }
 
@@ -75,15 +82,12 @@ export class FavoritesMoviesComponent implements OnInit, OnDestroy {
         this.translate.get(['favoritesMovies', 'global']).subscribe(labels => {
             this.globalLabels = labels.global;
             this.labels = labels.favoritesMovies;
+            this.getData();
         });
     }
 
     goToMovieDetail(movie): void {
         this.navCtrl.navigateForward(['/movie-detail'], {queryParams: movie, replaceUrl: true});
-    }
-
-    ngOnDestroy(): void {
-        this.subscriptions.forEach(sb => sb.unsubscribe());
     }
 
 }
